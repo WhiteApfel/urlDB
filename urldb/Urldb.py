@@ -7,14 +7,15 @@ import pyperclip
 
 class UrlDB:
 	"""
-	Класс "базы данных", которая на самом деле является просто альтернативным представлением данных.
+	A "database" class that is really just an alternative representation of the data.
 
 	*Аргументы*
-	:param base: начальная часть URL, на которую будут накладываться данные
+
+	:param base: link to add query string
 	:type base: ``str``, optional
-	:param setdb: можно уже имеющуюся строку прочитать и сделать из неё понятное и редактируемое хранилище
-	:type setdb: ``str``, optional
-	:param compress: добавить ли сжатие данных в URL с помощью zlib
+	:param setdb: convert URL to urlDB class
+	:type setdb: ``str``, URL, optional
+	:param compress: compressing data in URL
 	:type compress: ``bool``
 	"""
 	def __init__(self, base: str = None, setdb: str = None, compress: bool = None):
@@ -35,10 +36,10 @@ class UrlDB:
 			self.compress = True if compress else False
 			if base and self._is_base_url(base):
 				self.base = base
-				self.url = self.base
+				self._url = self.base
 			else:
 				self.base = "https://urldb.pfel.cc/data"
-				self.url = self.base
+				self._url = self.base
 
 	def _is_base_url(self, url):
 		if re.match(r"(https?:\/\/)([a-zA-Z0-9\-\_.?]+)(\/?[a-zA-Z0-9\/]+)", url):
@@ -99,15 +100,15 @@ class UrlDB:
 	def _update_link(self):
 		if len(self.__dict__):
 			self.link_data = self._encode(self.data)
-			self.url = f"{self.base}?{self.link_data}#{'c' if self.compress else 'n'}"
+			self._url = f"{self.base}?{self.link_data}#{'c' if self.compress else 'n'}"
 		else:
-			self.url = f"{self.base}"
+			self._url = f"{self.base}"
 
 	def to_clipboard(self):
 		"""
-		Втавсляет в буфер обмена строку
+		Copy to clipboard
 		"""
-		pyperclip.copy(self.url)
+		pyperclip.copy(self._url)
 
 	def __setitem__(self, key, item):
 		self.data[key] = item
@@ -117,7 +118,7 @@ class UrlDB:
 		return self.data[key]
 
 	def __repr__(self):
-		return f"<urlDB {self.url}>"
+		return f"<urlDB {self._url}>"
 
 	def __len__(self):
 		return len(self.data)
@@ -128,17 +129,28 @@ class UrlDB:
 
 	def clear(self):
 		"""
-		Очищает данные и возвращает чистый URL
-		:return: URL (``str``)
+		Clear the data dict
+
+		:return: clear URL (``str``)
 		"""
 		self.data.clear()
-		self._update_link()
 		return self.url
 
 	def copy(self):
+		"""
+		Make a copy of the data dict
+
+		:return:
+		"""
 		return self.data.copy()
 
 	def has_key(self, k):
+		"""
+		Checking if a key exists in the data dictionary
+
+		:param k: key to check
+		:return: ``bool``
+		"""
 		return k in self.data
 
 	def update(self, *args, **kwargs):
@@ -147,15 +159,35 @@ class UrlDB:
 		return self.data.update({})
 
 	def keys(self):
+		"""
+		Get list of data dict keys
+
+		:return: ``list`` of keys
+		"""
 		return self.data.keys()
 
 	def values(self):
+		"""
+		Get list of data dict values
+
+		:return: ``list`` of values
+		"""
 		return self.data.values()
 
 	def items(self):
+		"""
+		Get list of data dict items
+
+		:return: ``list`` of tuple (key, value)
+		"""
 		return self.data.items()
 
 	def pop(self, *args):
+		"""
+		Pop element by key
+
+		:return: value of pop item
+		"""
 		x = self.data.pop(*args)
 		self._update_link()
 		return x
@@ -168,3 +200,8 @@ class UrlDB:
 
 	def __iter__(self):
 		return iter(self.data)
+
+	@property
+	def url(self):
+		self._update_link()
+		return self.url
