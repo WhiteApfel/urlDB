@@ -140,14 +140,12 @@ class UrlDB:
 		"""
 		Make a copy of the data dict
 
-		:return:
+		:return: ``dict``
 		"""
 		return self.data.copy()
 
 	def has_key(self, k):
 		"""
-		Checking if a key exists in the data dictionary
-
 		:param k: key to check
 		:return: ``bool``
 		"""
@@ -160,32 +158,24 @@ class UrlDB:
 
 	def keys(self):
 		"""
-		Get list of data dict keys
-
 		:return: ``list`` of keys
 		"""
 		return self.data.keys()
 
 	def values(self):
 		"""
-		Get list of data dict values
-
 		:return: ``list`` of values
 		"""
 		return self.data.values()
 
 	def items(self):
 		"""
-		Get list of data dict items
-
 		:return: ``list`` of tuple (key, value)
 		"""
 		return self.data.items()
 
 	def pop(self, *args):
 		"""
-		Pop element by key
-
 		:return: value of pop item
 		"""
 		x = self.data.pop(*args)
