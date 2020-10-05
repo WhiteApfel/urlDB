@@ -9,7 +9,7 @@ def read(filename):
 
 setup(
 	name='urlDB',
-	version='0.2b',
+	version='0.3b1',
 	packages=['urldb'],
 	url='https://github.com/WhiteApfel/urlDB',
 	license='Mozilla Public License 2.0',
