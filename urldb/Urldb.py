@@ -176,6 +176,7 @@ class UrlDB:
 
 	def pop(self, *args):
 		"""
+		:param: key of pop item
 		:return: value of pop item
 		"""
 		x = self.data.pop(*args)
