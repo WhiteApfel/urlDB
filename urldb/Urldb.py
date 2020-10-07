@@ -119,7 +119,7 @@ class UrlDB:
 		return self.data[key]
 
 	def __repr__(self):
-		return f"<urlDB {self._url}>"
+		return f"<urlDB {self.url}>"
 
 	def __len__(self):
 		return len(self.data)
