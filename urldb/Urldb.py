@@ -3,6 +3,7 @@ import zlib
 from urllib import parse
 import ujson
 import pyperclip
+import base64
 
 
 class UrlDB:
@@ -73,10 +74,10 @@ class UrlDB:
 		return enc
 
 	def _encode_with_compress(self, to_encode: dict):
-		return parse.quote(zlib.compress(ujson.dumps(to_encode).encode("utf-8")))
+		return base64.urlsafe_b64encode(zlib.compress(ujson.dumps(to_encode).encode("utf-8"))).decode()
 
 	def _decode_with_decompress(self, to_decode: str):
-		return ujson.loads(zlib.decompress(parse.unquote_to_bytes(to_decode)).decode())
+		return ujson.loads(zlib.decompress(base64.urlsafe_b64decode(to_decode.encode())).decode())
 
 	def _to_value(self, arg):
 		if arg.isdigit():
@@ -195,4 +196,4 @@ class UrlDB:
 	@property
 	def url(self):
 		self._update_link()
-		return self.url
+		return self._url
