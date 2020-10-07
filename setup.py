@@ -9,12 +9,12 @@ def read(filename):
 
 setup(
 	name='urlDB',
-	version='0.3b1',
+	version='0.5b1',
 	packages=['urldb'],
 	url='https://github.com/WhiteApfel/urlDB',
 	license='Mozilla Public License 2.0',
 	author='WhiteApfel',
 	author_email='white@pfel.ru',
 	install_requires=read("requirements.txt").split("\n"),
-	description='Tool for nice work with storing data in URL '
+	description='Tool for nice work with storing data in URL'
 )
